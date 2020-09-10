@@ -1,0 +1,9 @@
+loginfaild1:
+  username: zhangsan
+  passwd: 123456
+loginfaild2:
+  username: ''
+  passwd: 123456
+loginfaild3:
+  username: ''
+  passwd: ''

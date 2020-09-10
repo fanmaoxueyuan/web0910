@@ -1,0 +1,32 @@
+import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+from pom.base_driver import BaseDriver
+from pom.resetpasswd_page import ResetPasswdPage
+from tools.mylogger import log
+
+class LoginPage(BaseDriver):
+    _username = (By.ID,'name')
+    _password = (By.ID,'pass')
+
+    def login_with_username(self,username,passwd):
+        log.info(f'使用用户名{username},密码{passwd}进行登录')
+        try:
+            self.driver.find_element(*LoginPage._username).send_keys(username)
+            self.driver.find_element(*LoginPage._password).send_keys(passwd)
+            self.driver.find_element(By.CSS_SELECTOR,'[value="登录"]').click()
+        except Exception:
+            log.error(f'登录出现异常,{Exception}')
+    def login_fail_text(self):
+        return  self.driver.find_element(By.CSS_SELECTOR,'[class="alert alert-error"]>strong').text
+
+    def go_reset_passwd_page(self):
+        self.driver.find_element(By.LINK_TEXT,'忘记密码了?').click()
+        return ResetPasswdPage()
+
+if __name__ == '__main__':
+    from pom.main_page import MainPage
+    mp = MainPage()
+    lp = mp.go_to_login_page()
+    lp.login_with_username('zhangsan','123456')
