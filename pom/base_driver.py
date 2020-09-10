@@ -1,13 +1,18 @@
 import os
 from  selenium import  webdriver
+from selenium.webdriver import DesiredCapabilities
 
 
 class BaseDriver:
     driver = None
     def __init__(self):
         if not BaseDriver.driver:
-            driverpath = os.path.join(os.path.dirname(__file__), '../drivers/chromedriver.exe')
-            self.driver = webdriver.Chrome(executable_path=driverpath)
+            # driverpath = os.path.join(os.path.dirname(__file__), '../drivers/chromedriver.exe')
+            # self.driver = webdriver.Chrome(executable_path=driverpath)
+            # 使用远程浏览器
+            self.driver = webdriver.Remote('http://49.233.108.117:4444/wd/hub',
+                                           desired_capabilities=DesiredCapabilities.CHROME)
+
             BaseDriver.driver = self.driver
 
             self.driver.maximize_window()
